@@ -42,7 +42,7 @@ jobs:
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
           tflint --init
       - name: SCA with TFLint
-        run: tflint --chdir${{ inputs.path }}
+        run: tflint --chdir ${{ inputs.path }}
 
       # SECURITY CHECK
       - name: tfsec setup
