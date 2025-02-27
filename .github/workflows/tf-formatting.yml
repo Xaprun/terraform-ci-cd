@@ -2,15 +2,23 @@
 name: Reuse TF formatting workflow
 
 on:
-  push:
-    branches:
-       - main
-    
+  workflow_call:
+    inputs:
+      branch:
+        description: 'Branch to trigger on'
+        required: true
+        type: string
+      path:
+        description: 'Paths to trigger on'
+        required: false
+        type: string
+        # default: 'module/**'
+
 permissions:
   contents: write   # Umożliwia zapis do repozytorium
   
 jobs:
-  call_tf_testing:
+  called_tf_formating:
     runs-on: ubuntu-latest
     
     steps:
