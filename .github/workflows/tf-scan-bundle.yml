@@ -7,7 +7,7 @@ on:
         description: 'Branch to trigger on'
         required: true
         type: string
-      paths:
+      path:
         description: 'Paths to trigger on'
         required: false
         type: string
