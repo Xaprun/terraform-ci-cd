@@ -1,0 +1,42 @@
+# use to correct tf scripts after fmt error
+name: Reuse TF formatting workflow
+
+on:
+  push:
+    branches:
+       - main
+    
+permissions:
+  contents: write   # Umożliwia zapis do repozytorium
+  
+jobs:
+  call_tf_testing:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+      
+      - name: Terraform auto format
+        run: terraform fmt aks/aks_spot
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Auto format Terraform files" || echo "No changes to commit"
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push
