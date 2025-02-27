@@ -31,6 +31,9 @@ jobs:
         run: terraform fmt -diff -check aks/aks_spot
         continue-on-error: true
 
+      - name: Terraform initialization (req by terraform validate)
+        run: terraform init aks/aks_spot
+
       - name: TF code validation (terraform validate)
         run: terraform validate ${{ inputs.path }}
            
