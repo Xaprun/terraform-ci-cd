@@ -28,17 +28,17 @@ jobs:
         
       # CODE COMPOSITION CHECK   
       - name: Terraform formating check (terraform fmt)
-        run: terraform fmt -check
+        run: terraform fmt -check ${{ inputs.path }}
 
       - name: TF code validation (terraform validate)
-        run: terraform validate
+        run: terraform validate ${{ inputs.path }}
            
       - name: TFLint installation
         run: |
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
           tflint --init
       - name: SCA with TFLint
-        run: tflint
+        run: tflint ${{ inputs.path }}
 
       # SECURITY CHECK
       - name: tfsec setup
@@ -46,9 +46,9 @@ jobs:
           go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
           echo "$HOME/go/bin" >> $GITHUB_PATH
       - name: tfsec scanning
-        run: tfsec .
+        run: tfsec ${{ inputs.path }}
         
       - name: Checkov setup & scanning
         run: |
           pip install -U checkov
-          checkov -d ./TF
+          checkov -d ${{ inputs.path }}
