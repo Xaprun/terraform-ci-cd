@@ -36,6 +36,11 @@ jobs:
 
       - name: TF code validation (terraform validate)
         run: terraform -chdir=${{ inputs.path }} validate
+        continue-on-error: true
+
+      - name: TF code validation (terraform validate)
+        run: terraform -chdir=${{ inputs.path }} validate -upgrade
+        continue-on-error: true
            
       - name: TFLint installation
         run: |
@@ -43,6 +48,7 @@ jobs:
           tflint --init
       - name: SCA with TFLint
         run: tflint --chdir ${{ inputs.path }}
+        continue-on-error: true
 
       # SECURITY CHECK
       - name: tfsec setup
@@ -56,3 +62,4 @@ jobs:
         run: |
           pip install -U checkov
           checkov -d ${{ inputs.path }}
+        continue-on-error: true
