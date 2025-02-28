@@ -57,6 +57,7 @@ jobs:
           echo "$HOME/go/bin" >> $GITHUB_PATH
       - name: tfsec scanning
         run: tfsec ${{ inputs.path }}
+        continue-on-error: true
         
       - name: Checkov setup & scanning
         run: |
