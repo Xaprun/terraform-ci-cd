@@ -33,13 +33,10 @@ jobs:
 
       - name: Terraform initialization (req by terraform validate)
         run: terraform -chdir=${{ inputs.path }} init 
-
-      - name: TF code validation (terraform validate)
-        run: terraform -chdir=${{ inputs.path }} validate
         continue-on-error: true
 
       - name: TF code validation (terraform validate)
-        run: terraform -chdir=${{ inputs.path }} validate -upgrade
+        run: terraform -chdir=${{ inputs.path }} validate
         continue-on-error: true
            
       - name: TFLint installation
